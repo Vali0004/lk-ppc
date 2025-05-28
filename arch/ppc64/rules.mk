@@ -2,7 +2,7 @@ LOCAL_DIR := $(GET_LOCAL_DIR)
 
 MODULE := $(LOCAL_DIR)
 TOOLCHAIN_PREFIX := powerpc64-unknown-linux-gnuabielfv2-
-ARCH_COMPILEFLAGS += -mcpu=powerpc64
+ARCH_COMPILEFLAGS += -mcpu=powerpc64 -maltivec -mabi=altivec
 #ARCH_COMPILEFLAGS += -finstrument-functions
 # ARCH_LDFLAGS += -mcpu=powerpc64
 

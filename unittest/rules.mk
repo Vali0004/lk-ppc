@@ -5,9 +5,11 @@ MODULE := $(LOCAL_DIR)
 MODULE_SRCS := \
 	$(LOCAL_DIR)/ppc_alu_tests.c \
 	$(LOCAL_DIR)/ppc_cmp_tests.c \
+	$(LOCAL_DIR)/ppc_fpu_tests.c \
 	$(LOCAL_DIR)/ppc_logical_tests.c \
 	$(LOCAL_DIR)/ppc_rotate_tests.c \
 	$(LOCAL_DIR)/ppc_shift_tests.c \
+	$(LOCAL_DIR)/ppc_vpu_tests.c \
 
 MODULES += lib/unittest
 

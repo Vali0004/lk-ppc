@@ -77,13 +77,9 @@ void smc_send_message(const uint8_t *msg) {
 	while (!(IO_BSWAP_READ(32, SMC_BASE+0x04) & 4));
 	IO_BSWAP_WRITE(32, SMC_BASE+0x04, 4);
   *REG32(SMC_BASE) = *(uint32_t*)(msg + 0);
-  printf("msg0: 0x%lX\n", *(uint32_t*)(msg + 0));
   *REG32(SMC_BASE) = *(uint32_t*)(msg + 4);
-  printf("msg4: 0x%lX\n", *(uint32_t*)(msg + 4));
   *REG32(SMC_BASE) = *(uint32_t*)(msg + 8);
-  printf("msg8: 0x%lX\n", *(uint32_t*)(msg + 8));
   *REG32(SMC_BASE) = *(uint32_t*)(msg + 12);
-  printf("msg12: 0x%lX\n", *(uint32_t*)(msg + 12));
 	IO_BSWAP_WRITE(32, SMC_BASE+0x04, 0);
 }
 
@@ -170,7 +166,6 @@ int platform_dgetc(char *c, bool wait) {
 
 #ifdef WITH_LIB_GFX
 
-
 #define WIDTH 1280
 #define HEIGHT 720
 
@@ -205,10 +200,6 @@ void fb_init(void) {
       fb[out] = (x&1) ? 0 : 0xffffff00;
     }
   }
-  for (int y=0; y<32; y++) {
-    int out = ((y & ~1) * 64) | ((y&1) * 4);
-    //fb[out] = (y&1) ? 0 : 0xffffff00;
-  }
   fb[0]   = 0xff000000;
   fb[4]   = 0x00ff0000;
   fb[64]  = 0x0000ff00;
@@ -229,25 +220,22 @@ int xeFbConvert(int x, int y, int width) {
     ^ ((y & 8) << 2));
 }
 
-void retile_framebuffer(uint starty, uint endy) {
-#ifndef WITH_LIB_GFXCONSOLE
-  printf("retile_framebuffer(%d, %d)\n", starty, endy);
-#endif
+void retile_framebuffer(uint32_t starty, uint32_t endy) {
   volatile uint32_t *fb = (uint32_t*)((1ULL << 63) | 0x1e000000);
   uint32_t *input = framebuffer;
   int stride = WIDTH;
 
-  for (int y = starty; y < endy; y++) {
+  for (uint y = starty; y < endy; y++) {
     int yoff = y * stride;
 
     //if (y > 0) continue;
 
     for (int x = 0; x < WIDTH; x++) {
       //if (x > 64) continue;
-      int tilex = x / 32;
-      int tilex2 = x % 32;
+      uint32_t tilex = x / 32;
+      uint32_t tilex2 = x % 32;
       uint32_t pixel = fix_color(input[yoff + x]);
-      int out = (tilex * 1024) + (tilex2) + (y * 1024 * 2);
+      uint32_t out = (tilex * 1024) + (tilex2) + (y * 1024 * 2);
       out = xeFbConvert(x, y, WIDTH);
       //printf("%d,%x -> %d == %06x\n", x, y, out, pixel);
       fb[out] = pixel;
@@ -260,7 +248,6 @@ __WEAK status_t display_get_framebuffer(struct display_framebuffer *fb) {
 
   const int w = WIDTH;
   const int h = HEIGHT;
-  const gfx_format fmt = GFX_FORMAT_RGB_332;
   fb->image.pixels = framebuffer;
   fb->format = DISPLAY_FORMAT_ARGB_8888;
   fb->image.format = IMAGE_FORMAT_ARGB_8888;
@@ -276,8 +263,11 @@ __WEAK status_t display_get_framebuffer(struct display_framebuffer *fb) {
 
 static int cmd_p(int argc, const console_cmd_args *argv) {
   volatile uint32_t *fb = (uint32_t*)((1ULL << 63) | 0x1e000000);
-  int index = argv[1].u;
-  //fb[index] = 0x0000ff00;
+  if (argc == 2) {
+    int index = argv[1].u;
+    fb[index] = 0x0000ff00;
+    return 0;
+  }
   puts("hello");
 #define printreg(name) printf(#name ": 0x%016llx\n", name ## _read())
   printreg(hrmor);
@@ -319,7 +309,7 @@ static void map_page(uint64_t vpn, uint64_t physical) {
   uint64_t pte1 = physical | 0x10 | 2;
   uint64_t addr_upper = 1; // TODO
   uint64_t hash = (vpn ^ addr_upper) & 0x7ff;
-  pteg_t *p = page_table;
+  pteg_t *p = (pteg_t*)page_table;
   p[hash].e[0].pte0 = pte0;
   p[hash].e[0].pte1 = pte1;
   printf("mapping virt 0x%x -> phys 0x%x\n", (uint32_t)(vpn << 12), (uint32_t)physical);
@@ -352,7 +342,7 @@ static int cmd_x(int argc, const console_cmd_args *argv) {
   return 0;
 }
 
-void test1(uint64_t *a, uint64_t *b, uint64_t *c);
+void test1(double *a, uint64_t *b, uint64_t *c);
 
 static int cmd_f(int argc, const console_cmd_args *argv) {
   double a[] = { 1.0, 2.14 };
@@ -369,7 +359,6 @@ static int cmd_smc(int argc, const console_cmd_args *argv) {
   if (argc < 2) {
     printf("not enough arguments:\n");
 usage:
-    printf("%s test : manually constructs a buffer\n", argv[0].str);
     printf("%s recieve : recieves an message from the SMC\n", argv[0].str);
     printf("%s recieve_response : recieves a message response from the SMC\n", argv[0].str);
     printf("%s send [1-16 byte block] : sends a message to the SMC\n", argv[0].str);
@@ -378,21 +367,18 @@ usage:
     return -1;
   }
 
-  if (!strcmp(argv[1].str, "test")) {
-    uint8_t msg[16] = { 0x82, 0x04, 0x12, 0x00 };
-    smc_send_message(msg);
-  } else if (!strcmp(argv[1].str, "recieve")) {
+  if (!strcmp(argv[1].str, "recieve")) {
     uint8_t msg[16] = {};
     smc_recieve_message(msg);
-    for (int i=0; i<sizeof(msg); i++) {
-      printf("0x%lx ", msg[i]);
+    for (size_t i=0; i<sizeof(msg); i++) {
+      printf("0x%x ", msg[i]);
     }
     puts("");
   } else if (!strcmp(argv[1].str, "recieve_response")) {
     uint8_t msg[16] = {};
     smc_recieve_response(msg);
-    for (int i=0; i<sizeof(msg); i++) {
-      printf("0x%lx ", msg[i]);
+    for (size_t i=0; i<sizeof(msg); i++) {
+      printf("0x%x ", msg[i]);
     }
     puts("");
   } else if (!strcmp(argv[1].str, "send")) {
@@ -405,7 +391,7 @@ usage:
       goto usage;
     }
     uint8_t msg[16] = {};
-    for (int i=0; i<argc-2; i++) {
+    for (size_t i=0; i<(size_t)(argc-2); i++) {
       msg[i] = argv[i+2].u;
     }
     smc_send_message(msg);
@@ -419,13 +405,13 @@ usage:
       goto usage;
     }
     uint8_t msg[16] = {};
-    for (int i=2; i<argc; i++) {
+    for (size_t i=0; i<(size_t)(argc); i++) {
       msg[i-2] = argv[i].u;
     }
     smc_send_message(msg);
     smc_recieve_response(msg);
-    for (int i=0; i<sizeof(msg); i++) {
-      printf("0x%lx ", msg[i]);
+    for (size_t i=0; i<sizeof(msg); i++) {
+      printf("0x%x ", msg[i]);
     }
     puts("");
   } else {

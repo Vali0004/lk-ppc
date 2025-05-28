@@ -11,6 +11,6 @@ MODULES += lib/debugcommands
 #MODULES += lib/gfxconsole
 
 DEBUG := 2
-WITH_TESTS := false
+WITH_TESTS := true
 
 WITH_KERNEL_VM := 1

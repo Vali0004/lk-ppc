@@ -22,7 +22,7 @@ static inline void name ## _write(uint64_t value) { \
 }
 
 static inline void msr_write(uint64_t value) {
-  __asm__ volatile ("tlbie %%r0\nsync\nmtmsrd %0, 0\ntlbie %%r0\nsync\nisync": : "r"(value));
+  __asm__ volatile ("tlbie %%r0, 0\nsync\nmtmsrd %0, 0\ntlbie %%r0, 0\nsync\nisync": : "r"(value));
 }
 
 static inline void slbmte(uint64_t vsid, bool ks, bool kp, bool n, bool l, bool c, uint64_t esid, bool v, uint16_t index) {
