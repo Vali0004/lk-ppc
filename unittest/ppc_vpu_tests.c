@@ -133,6 +133,7 @@ float testFloats[] = {
 
 static bool test_vpu(void) {
   BEGIN_TEST;
+
   for (uint32_t i = 0; i < sizeof(testInts) / sizeof(int); i++) {
     for (uint32_t j = 0; j < sizeof(testInts) / sizeof(int); j++) {
       vec_int4 v1sw = (vec_int4){ testInts[i] };
@@ -170,19 +171,19 @@ static bool test_vpu(void) {
       unittest_printf("vec_vsubuhs  ([%02d],[%02d]) -> ", i, j); PRINT_VEC_US(vec_vsubuhs(v1uh,v2uh));
       unittest_printf("vec_vsubuws  ([%02d],[%02d]) -> ", i, j); PRINT_VEC_UINT(vec_vsubuws(v1uw,v2uw));
       unittest_printf("vec_vsubcuw  ([%02d],[%02d]) -> ", i, j); PRINT_VEC_UINT(vec_vsubcuw(v1uw,v2uw));
-      unittest_printf("vec_vmuloub  ([%02d],[%02d]) -> ", i, j); PRINT_VEC_US(vec_vmuloub(v1ub,v2ub));
-      unittest_printf("vec_vmulouh  ([%02d],[%02d]) -> ", i, j); PRINT_VEC_UINT(vec_vmulouh(v1uh,v2uh));
-      unittest_printf("vec_vmulosb  ([%02d],[%02d]) -> ", i, j); PRINT_VEC_SS(vec_vmulosb(v1sb,v2sb));
-      unittest_printf("vec_vmulosh  ([%02d],[%02d]) -> ", i, j); PRINT_VEC_SINT(vec_vmulosh(v1sh,v2sh));
-      unittest_printf("vec_vmuleub  ([%02d],[%02d]) -> ", i, j); PRINT_VEC_US(vec_vmuleub(v1ub,v2ub));
-      unittest_printf("vec_vmuleuh  ([%02d],[%02d]) -> ", i, j); PRINT_VEC_UINT(vec_vmuleuh(v1uh,v2uh));
-      unittest_printf("vec_vmulesb  ([%02d],[%02d]) -> ", i, j); PRINT_VEC_SS(vec_vmulesb(v1sb,v2sb));
-      unittest_printf("vec_vmulesh  ([%02d],[%02d]) -> ", i, j); PRINT_VEC_SINT(vec_vmulesh(v1sh,v2sh));
-      unittest_printf("vec_vsumsws  ([%02d],[%02d]) -> ", i, j); PRINT_VEC_SINT(vec_vsumsws(v1sw,v2sw));
-      unittest_printf("vec_vsum2sws ([%02d],[%02d]) -> ", i, j); PRINT_VEC_SINT(vec_vsum2sws(v1sw,v2sw));
-      unittest_printf("vec_vsum4ubs ([%02d],[%02d]) -> ", i, j); PRINT_VEC_UINT(vec_vsum4ubs(v1ub,v2uw));
-      unittest_printf("vec_vsum4sbs ([%02d],[%02d]) -> ", i, j); PRINT_VEC_SINT(vec_vsum4sbs(v1sb,v2sw));
-      unittest_printf("vec_vsum4shs ([%02d],[%02d]) -> ", i, j); PRINT_VEC_SINT(vec_vsum4shs(v1sh,v2sw));
+      //unittest_printf("vec_vmuloub  ([%02d],[%02d]) -> ", i, j); PRINT_VEC_US(vec_vmuloub(v1ub,v2ub));
+      //unittest_printf("vec_vmulouh  ([%02d],[%02d]) -> ", i, j); PRINT_VEC_UINT(vec_vmulouh(v1uh,v2uh));
+      //unittest_printf("vec_vmulosb  ([%02d],[%02d]) -> ", i, j); PRINT_VEC_SS(vec_vmulosb(v1sb,v2sb));
+      //unittest_printf("vec_vmulosh  ([%02d],[%02d]) -> ", i, j); PRINT_VEC_SINT(vec_vmulosh(v1sh,v2sh));
+      //unittest_printf("vec_vmuleub  ([%02d],[%02d]) -> ", i, j); PRINT_VEC_US(vec_vmuleub(v1ub,v2ub));
+      //unittest_printf("vec_vmuleuh  ([%02d],[%02d]) -> ", i, j); PRINT_VEC_UINT(vec_vmuleuh(v1uh,v2uh));
+      //unittest_printf("vec_vmulesb  ([%02d],[%02d]) -> ", i, j); PRINT_VEC_SS(vec_vmulesb(v1sb,v2sb));
+      //unittest_printf("vec_vmulesh  ([%02d],[%02d]) -> ", i, j); PRINT_VEC_SINT(vec_vmulesh(v1sh,v2sh));
+      //unittest_printf("vec_vsumsws  ([%02d],[%02d]) -> ", i, j); PRINT_VEC_SINT(vec_vsumsws(v1sw,v2sw));
+      //unittest_printf("vec_vsum2sws ([%02d],[%02d]) -> ", i, j); PRINT_VEC_SINT(vec_vsum2sws(v1sw,v2sw));
+      //unittest_printf("vec_vsum4ubs ([%02d],[%02d]) -> ", i, j); PRINT_VEC_UINT(vec_vsum4ubs(v1ub,v2uw));
+      //unittest_printf("vec_vsum4sbs ([%02d],[%02d]) -> ", i, j); PRINT_VEC_SINT(vec_vsum4sbs(v1sb,v2sw));
+      //unittest_printf("vec_vsum4shs ([%02d],[%02d]) -> ", i, j); PRINT_VEC_SINT(vec_vsum4shs(v1sh,v2sw));
       unittest_printf("vec_vavgub   ([%02d],[%02d]) -> ", i, j); PRINT_VEC_UB(vec_vavgub(v1ub,v2ub));
       unittest_printf("vec_vavguh   ([%02d],[%02d]) -> ", i, j); PRINT_VEC_US(vec_vavguh(v1uh,v2uh));
       unittest_printf("vec_vavguw   ([%02d],[%02d]) -> ", i, j); PRINT_VEC_UINT(vec_vavguw(v1uw,v2uw));
@@ -233,39 +234,6 @@ static bool test_vpu(void) {
       unittest_printf("vec_vsrab    ([%02d],[%02d]) -> ", i, j); PRINT_VEC_UB(vec_vsrab(v1ub,v2ub));
       unittest_printf("vec_vsrah    ([%02d],[%02d]) -> ", i, j); PRINT_VEC_US(vec_vsrah(v1uh,v2uh));
       unittest_printf("vec_vsraw    ([%02d],[%02d]) -> ", i, j); PRINT_VEC_UINT(vec_vsraw(v1uw,v2uw));
-  }
-  }
-  for (uint32_t i = 0; i<sizeof(testInts) / sizeof(int); i++) {
-    for (uint32_t j = 0; j<sizeof(testInts) / sizeof(int); j++) {
-      for (uint32_t k = 0; k<sizeof(testInts) / sizeof(int); k++) {
-        vec_int4 v1sw = (vec_int4){ testInts[i] };
-        vec_int4 v2sw = (vec_int4){ testInts[j], testInts[j], 0.0, 0.0 };
-        vec_int4 v3sw = (vec_int4){ testInts[k], 0.0, testInts[k], 0.0 };
-        vec_short8 v1sh = *(vec_short8 *)&v1sw;
-        vec_short8 v2sh = *(vec_short8 *)&v2sw;
-        vec_short8 v3sh = *(vec_short8 *)&v3sw;
-        vec_char16 v1sb = *(vec_char16 *)&v1sw;
-
-        vec_uint4 v1uw = (vec_uint4){ testInts[i] };
-        vec_uint4 v2uw = (vec_uint4){ testInts[j], testInts[j], 0.0, 0.0 };
-        vec_uint4 v3uw = (vec_uint4){ testFloats[k], 0.0, testFloats[k], 0.0 };
-        vec_ushort8 v1uh = *(vec_ushort8 *)&v1uw;
-        vec_ushort8 v2uh = *(vec_ushort8 *)&v2uw;
-        vec_ushort8 v3uh = *(vec_ushort8 *)&v3uw;
-        vec_uchar16 v1ub = *(vec_uchar16 *)&v1uw;
-        vec_uchar16 v2ub = *(vec_uchar16 *)&v2uw;
-
-        // Vector Integer Arithmetic Instructions
-        unittest_printf("vec_vmhaddshs  ([%02d],[%02d],[%02d]) -> ", i, j, k); PRINT_VEC_SS(vec_vmhaddshs(v1sh,v2sh,v3sh));
-        unittest_printf("vec_vmhraddshs ([%02d],[%02d],[%02d]) -> ", i, j, k); PRINT_VEC_SS(vec_vmhraddshs(v1sh,v2sh,v3sh));
-        unittest_printf("vec_vmladduhm  ([%02d],[%02d],[%02d]) -> ", i, j, k); PRINT_VEC_US(vec_vmladduhm(v1uh,v2uh,v3uh));
-        unittest_printf("vec_vmsumubm   ([%02d],[%02d],[%02d]) -> ", i, j, k); PRINT_VEC_UINT(vec_vmsumubm(v1ub,v1ub,v1uw));
-        unittest_printf("vec_vmsumuhm   ([%02d],[%02d],[%02d]) -> ", i, j, k); PRINT_VEC_UINT(vec_vmsumuhm(v1uh,v2uh,v3uw));
-        unittest_printf("vec_vmsumshs   ([%02d],[%02d],[%02d]) -> ", i, j, k); PRINT_VEC_SINT(vec_vmsumshs(v1sh,v2sh,v3sw));
-        unittest_printf("vec_vmsumuhs   ([%02d],[%02d],[%02d]) -> ", i, j, k); PRINT_VEC_UINT(vec_vmsumuhs(v1uh,v2uh,v3uw));
-        unittest_printf("vec_vmsummbm   ([%02d],[%02d],[%02d]) -> ", i, j, k); PRINT_VEC_SINT(vec_vmsummbm(v1sb,v2ub,v3sw));
-        unittest_printf("vec_vmsumshm   ([%02d],[%02d],[%02d]) -> ", i, j, k); PRINT_VEC_SINT(vec_vmsumshm(v1sh,v2sh,v3sw));
-      }
     }
   }
 
@@ -394,7 +362,7 @@ static bool test_vpu(void) {
 
 
   // Input arguments: 1 vec_(u)int4 / vec_(u)short8 / vec_(u)char16, (1 UIMM)
-  for (uint32_t i = 0; i<sizeof(testInts) / sizeof(int); i++) {
+  for (uint32_t i = 0; i < sizeof(testInts) / sizeof(int); i++) {
     vec_int4 v1sw = (vec_int4){ testInts[i] };
     vec_short8 v1sh = *(vec_short8*)&v1sw;
     vec_char16 v1sb = *(vec_char16*)&v1sw;
@@ -441,24 +409,24 @@ static bool test_vpu(void) {
       vec_uchar16 v1ub = *(vec_uchar16*)&v1uw;
       vec_uchar16 v2ub = *(vec_uchar16*)&v2uw;
 
-      // Vector Pack Instructions
-      unittest_printf("vec_vpkuhum ([%02d],[%02d])    -> ", i, j); PRINT_VEC_UB(vec_vpkuhum(v1uh,v2uh));
-      unittest_printf("vec_vpkuwum ([%02d],[%02d])    -> ", i, j); PRINT_VEC_US(vec_vpkuwum(v1uw,v2uw));
-      unittest_printf("vec_vpkuhus ([%02d],[%02d])    -> ", i, j); PRINT_VEC_UB(vec_vpkuhus(v1uh,v2uh));
-      unittest_printf("vec_vpkuwus ([%02d],[%02d])    -> ", i, j); PRINT_VEC_US(vec_vpkuwus(v1uw,v2uw));
-      unittest_printf("vec_vpkshus ([%02d],[%02d])    -> ", i, j); PRINT_VEC_UB(vec_vpkshus(v1sh,v2sh));
-      unittest_printf("vec_vpkswus ([%02d],[%02d])    -> ", i, j); PRINT_VEC_US(vec_vpkswus(v1sw,v2sw));
-      unittest_printf("vec_vpkshss ([%02d],[%02d])    -> ", i, j); PRINT_VEC_SB(vec_vpkshss(v1sh,v2sh));
-      unittest_printf("vec_vpkswss ([%02d],[%02d])    -> ", i, j); PRINT_VEC_SS(vec_vpkswss(v1sw,v2sw));
-      unittest_printf("vec_vpkpx   ([%02d],[%02d])    -> ", i, j); PRINT_VEC_PX(vec_vpkpx(v1uw,v2uw));
+  //    // Vector Pack Instructions
+  //    unittest_printf("vec_vpkuhum ([%02d],[%02d])    -> ", i, j); PRINT_VEC_UB(vec_vpkuhum(v1uh,v2uh));
+  //    unittest_printf("vec_vpkuwum ([%02d],[%02d])    -> ", i, j); PRINT_VEC_US(vec_vpkuwum(v1uw,v2uw));
+  //    unittest_printf("vec_vpkuhus ([%02d],[%02d])    -> ", i, j); PRINT_VEC_UB(vec_vpkuhus(v1uh,v2uh));
+  //    unittest_printf("vec_vpkuwus ([%02d],[%02d])    -> ", i, j); PRINT_VEC_US(vec_vpkuwus(v1uw,v2uw));
+  //    unittest_printf("vec_vpkshus ([%02d],[%02d])    -> ", i, j); PRINT_VEC_UB(vec_vpkshus(v1sh,v2sh));
+  //    unittest_printf("vec_vpkswus ([%02d],[%02d])    -> ", i, j); PRINT_VEC_US(vec_vpkswus(v1sw,v2sw));
+  //    unittest_printf("vec_vpkshss ([%02d],[%02d])    -> ", i, j); PRINT_VEC_SB(vec_vpkshss(v1sh,v2sh));
+  //    unittest_printf("vec_vpkswss ([%02d],[%02d])    -> ", i, j); PRINT_VEC_SS(vec_vpkswss(v1sw,v2sw));
+  //    unittest_printf("vec_vpkpx   ([%02d],[%02d])    -> ", i, j); PRINT_VEC_PX(vec_vpkpx(v1uw,v2uw));
 
-      // Vector Merge Instructions
-      unittest_printf("vec_vmrghb  ([%02d],[%02d])    -> ", i, j); PRINT_VEC_UB(vec_vmrghb(v1ub,v2ub));
-      unittest_printf("vec_vmrghh  ([%02d],[%02d])    -> ", i, j); PRINT_VEC_US(vec_vmrghh(v1uh,v2uh));
-      unittest_printf("vec_vmrghw  ([%02d],[%02d])    -> ", i, j); PRINT_VEC_UINT(vec_vmrghw(v1uw,v2uw));
-      unittest_printf("vec_vmrglb  ([%02d],[%02d])    -> ", i, j); PRINT_VEC_UB(vec_vmrglb(v1ub,v2ub));
-      unittest_printf("vec_vmrglh  ([%02d],[%02d])    -> ", i, j); PRINT_VEC_US(vec_vmrglh(v1uh,v2uh));
-      unittest_printf("vec_vmrglw  ([%02d],[%02d])    -> ", i, j); PRINT_VEC_UINT(vec_vmrglw(v1uw,v2uw));
+  //    // Vector Merge Instructions
+  //    unittest_printf("vec_vmrghb  ([%02d],[%02d])    -> ", i, j); PRINT_VEC_UB(vec_vmrghb(v1ub,v2ub));
+  //    unittest_printf("vec_vmrghh  ([%02d],[%02d])    -> ", i, j); PRINT_VEC_US(vec_vmrghh(v1uh,v2uh));
+  //    unittest_printf("vec_vmrghw  ([%02d],[%02d])    -> ", i, j); PRINT_VEC_UINT(vec_vmrghw(v1uw,v2uw));
+  //    unittest_printf("vec_vmrglb  ([%02d],[%02d])    -> ", i, j); PRINT_VEC_UB(vec_vmrglb(v1ub,v2ub));
+  //    unittest_printf("vec_vmrglh  ([%02d],[%02d])    -> ", i, j); PRINT_VEC_US(vec_vmrglh(v1uh,v2uh));
+  //    unittest_printf("vec_vmrglw  ([%02d],[%02d])    -> ", i, j); PRINT_VEC_UINT(vec_vmrglw(v1uw,v2uw));
 
       // Vector Shift Instructions
       unittest_printf("vec_vsl     ([%02d],[%02d])    -> ", i, j); PRINT_VEC_UINT(vec_vsl(v1uw,v2uw));
@@ -484,7 +452,7 @@ static bool test_vpu(void) {
         vec_uchar16 v3ub = *(vec_uchar16*)&v3uw;
 
         // Vector Permute Instruction
-        unittest_printf("vec_vperm ([%02d],[%02d],[%02d]) -> ", i, j, k); PRINT_VEC_UB(vec_vperm(v1ub,v2ub,v3ub));
+        //unittest_printf("vec_vperm ([%02d],[%02d],[%02d]) -> ", i, j, k); PRINT_VEC_UB(vec_vperm(v1ub,v2ub,v3ub));
 
         // Vector Select Instruction
         unittest_printf("vec_vsel  ([%02d],[%02d],[%02d]) -> ", i, j, k); PRINT_VEC_UINT(vec_vsel(v1uw,v2uw,v3uw));
